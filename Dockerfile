@@ -10,11 +10,11 @@ RUN apt-get -y install \
   gnupg2 \
   software-properties-common
 
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg > /tmp/dkey
-RUN apt-key add /tmp/dkey
-RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian stretch stable "
-RUN apt-get update && apt-get -y install docker-ce
-RUN apt-get install -y docker-ce
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg > /tmp/dkey && \
+  apt-key add /tmp/dkey && \
+  add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian stretch stable " && \
+  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install docker-ce && \
+  apt-get install -y docker-ce
 RUN usermod -a -G docker jenkins
 RUN systemctl enable docker
 USER jenkins
