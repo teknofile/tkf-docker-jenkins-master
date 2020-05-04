@@ -1,4 +1,5 @@
-FROM jenkins/jenkins
+FROM jenkins/jenkins:lts
+LABEL MAINTAINER "teknofile <teknofile@teknofile.org>"
 
 USER root
 
@@ -15,6 +16,10 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg > /tmp/dkey && \
   add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian stretch stable " && \
   apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install docker-ce 
 
-RUN usermod -a -G docker jenkins
-RUN systemctl enable docker
+RUN apt-get clean
+
+RUN groupadd -rg 117 dockerhost && \
+  usermod -aG dockerhost jenkins && \
+  usermod -aG docker jenkins
+
 USER jenkins

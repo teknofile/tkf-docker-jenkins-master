@@ -6,18 +6,17 @@ pipeline {
   environment {
     CONTAINER_NAME = 'tkf-docker-jenkins-master'
     TKF_USER = 'teknofile'
+
+    LOCAL_DOCKER_PROXY="docker.copperdale.teknofile.net/"
+    SCAN_SCRIPT="https://nexus.copperdale.teknofile.net/repository/teknofile-utils/teknofile/ci/utils/tkf-inline-scan-v10.6.0-1.sh"
   }
 
   stages {
-    // Run SHellCheck
-    stage('ShellCheck') {
-      steps {
-        sh '''echo "TODO: Determine a good strategy for finding and scanning shell code"'''
-      }
-    }
     stage('Docker Linting') {
       steps {
-        sh '''echo "TODO: Determine a good strategy for linting a Dockerfile"'''
+        sh '''
+          docker run --rm -i hadolint/hadolint < Dockerfile || true
+        '''
       }
     }
     stage('Docker Build x86') {
