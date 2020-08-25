@@ -18,8 +18,7 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg > /tmp/dkey && \
 
 RUN apt-get clean
 
-RUN groupadd -rg 117 dockerhost && \
-  usermod -aG dockerhost jenkins && \
+RUN groupadd -rg 118 docker && \
   usermod -aG docker jenkins
 
 USER jenkins
